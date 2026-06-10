@@ -36,11 +36,12 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
-
-COPY prisma ./prisma
-RUN npx prisma generate
+# Copy production dependencies and generated artifacts from the builder stage.
+# This avoids running `npm ci` in the production image where binary/native
+# modules or emulation can trigger illegal-instruction (exit code 132).
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/prisma ./prisma
 
 COPY --from=builder /app/dist ./dist
 COPY docker-entrypoint.sh ./
