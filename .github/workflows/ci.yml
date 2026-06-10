@@ -143,6 +143,6 @@ jobs:
 
           # Run the new container (customize the run args as needed)
           sshpass -p "${SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${REMOTE} \
-            "docker run -d --name nodejs-ci-cd -p 3000:3000 --restart unless-stopped \
+            "docker run -d --name nodejs-ci-cd -p 8000:3000 --restart unless-stopped \
               -e NODE_ENV=production \
               ${IMAGE}:latest"
