@@ -110,3 +110,41 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: |
+          sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy to server (password SSH)
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          IMAGE: ${{ env.IMAGE_NAME }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          set -eux
+          REMOTE=${SERVER_USER}@${SERVER_HOST}
+
+          # Pull the new image on the remote host
+          sshpass -p "${SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${REMOTE} "docker pull ${IMAGE}:latest"
+
+          # Stop and remove existing container (ignore errors if not present)
+          sshpass -p "${SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${REMOTE} \
+            "docker stop nodejs-ci-cd || true && docker rm nodejs-ci-cd || true"
+
+          # Run the new container (customize the run args as needed)
+          sshpass -p "${SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${REMOTE} \
+            "docker run -d --name nodejs-ci-cd -p 3000:3000 --restart unless-stopped \
+              -e NODE_ENV=production \
+              -e DATABASE_URL='${DATABASE_URL}' \
+              ${IMAGE}:latest"
