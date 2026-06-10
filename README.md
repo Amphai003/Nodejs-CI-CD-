@@ -79,13 +79,13 @@ npm install
 cp .env.example .env
 ```
 
-Edit `.env` and set your `DATABASE_URL`:
+Copy `.env.example` to `.env`. The server starts without a database connection. Set `DATABASE_URL` only when you need the User/Post API routes:
 
 ```
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nodejs_cicd?schema=public"
 ```
 
-### 3. Set up the database
+### 3. Set up the database (optional)
 
 ```bash
 # Generate Prisma client
@@ -142,6 +142,54 @@ To reset the database volume:
 ```bash
 docker compose down -v
 ```
+
+### Pull from Docker Hub
+
+Pre-built images are published to [Docker Hub](https://hub.docker.com/r/amphai003/nodejs-ci-cd):
+
+```bash
+docker pull amphai003/nodejs-ci-cd:latest
+
+docker run --rm -p 3000:3000 \
+  -e DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:5432/nodejs_cicd?schema=public" \
+  amphai003/nodejs-ci-cd:latest
+```
+
+### Build and push to Docker Hub (manual)
+
+```bash
+# Log in to Docker Hub
+docker login
+
+# Build with BuildKit (recommended)
+docker buildx build \
+  --target production \
+  --tag amphai003/nodejs-ci-cd:latest \
+  --tag amphai003/nodejs-ci-cd:1.0.0 \
+  --build-arg VERSION=1.0.0 \
+  --build-arg REVISION=$(git rev-parse --short HEAD) \
+  --push \
+  .
+```
+
+### Automated Docker Hub publish (CI)
+
+On every push to `main`, GitHub Actions runs tests, then builds and pushes a multi-arch image (`linux/amd64`, `linux/arm64`) to Docker Hub.
+
+Add these repository secrets under **Settings → Secrets and variables → Actions**:
+
+| Secret | Description |
+|--------|-------------|
+| `DOCKERHUB_USERNAME` | Your Docker Hub username (`amphai003`) |
+| `DOCKERHUB_TOKEN` | Docker Hub [access token](https://hub.docker.com/settings/security) (not your account password) |
+
+Image tags:
+
+| Tag | When |
+|-----|------|
+| `latest` | Push to `main` |
+| `<git-sha>` | Every publish |
+| `1.0.0`, `1.0`, `1` | Git tag `v1.0.0` |
 
 ## Running Tests
 
@@ -225,7 +273,7 @@ npm start
 |----------------|--------------------------------------|-------------|
 | `PORT`         | HTTP server port                     | `3000`      |
 | `NODE_ENV`     | Environment (`development`, `production`, `test`) | `development` |
-| `DATABASE_URL` | PostgreSQL connection string         | *(required)* |
+| `DATABASE_URL` | PostgreSQL connection string         | *(optional)* |
 
 ## License
 
