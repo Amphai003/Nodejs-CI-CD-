@@ -2,7 +2,7 @@
 
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/Amphai003/Nodejs-CI-CD-/actions/workflows/ci.yml/badge.svg)](https://github.com/Amphai003/Nodejs-CI-CD-/actions/workflows/ci.yml)
 
 Production-ready Node.js backend built with **Express.js**, **TypeScript**, **Prisma**, and **PostgreSQL**. Includes Jest tests, Docker support, and GitHub Actions CI/CD.
 
@@ -68,8 +68,8 @@ Production-ready Node.js backend built with **Express.js**, **TypeScript**, **Pr
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+git clone https://github.com/Amphai003/Nodejs-CI-CD-.git
+cd Nodejs-CI-CD-
 npm install
 ```
 
@@ -200,19 +200,15 @@ The GitHub Actions workflow (`.github/workflows/ci.yml`) runs on every push to `
 
 Go to [github.com/new](https://github.com/new) and create a new empty repository (do not initialize with a README).
 
-### 2. Update the CI badge in README
-
-Replace `YOUR_USERNAME/YOUR_REPO` in `README.md` with your actual GitHub username and repository name.
-
-### 3. Push your code
+### 2. Push your code
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git remote add origin https://github.com/Amphai003/Nodejs-CI-CD-.git
 git branch -M main
 git push -u origin main
 ```
 
-### 4. Verify CI
+### 3. Verify CI
 
 After pushing, go to the **Actions** tab in your GitHub repository to confirm the CI pipeline passes.
 
