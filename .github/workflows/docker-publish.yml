@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: amphai003/nodejs-ci-cd
+  IMAGE_NAME: amphait0m/nodejs-ci-cd
 
 jobs:
   test:
