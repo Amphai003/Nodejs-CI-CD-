@@ -1,0 +1,16 @@
+node_modules
+dist
+coverage
+.git
+.github
+.env
+.env.*
+!.env.example
+*.md
+!README.md
+tests
+jest.config.ts
+.vscode
+.idea
+npm-debug.log*
+*.log
