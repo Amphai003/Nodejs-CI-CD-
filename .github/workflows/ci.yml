@@ -130,7 +130,6 @@ jobs:
           SERVER_USER: ${{ secrets.SERVER_USER }}
           SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
           IMAGE: ${{ env.IMAGE_NAME }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           set -eux
           REMOTE=${SERVER_USER}@${SERVER_HOST}
@@ -146,5 +145,4 @@ jobs:
           sshpass -p "${SERVER_PASSWORD}" ssh -o StrictHostKeyChecking=no ${REMOTE} \
             "docker run -d --name nodejs-ci-cd -p 3000:3000 --restart unless-stopped \
               -e NODE_ENV=production \
-              -e DATABASE_URL='${DATABASE_URL}' \
               ${IMAGE}:latest"
