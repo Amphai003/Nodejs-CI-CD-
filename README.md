@@ -145,14 +145,14 @@ docker compose down -v
 
 ### Pull from Docker Hub
 
-Pre-built images are published to [Docker Hub](https://hub.docker.com/r/amphai003/nodejs-ci-cd):
+Pre-built images are published to [Docker Hub](https://hub.docker.com/r/amphait0m/nodejs-ci-cd):
 
 ```bash
-docker pull amphai003/nodejs-ci-cd:latest
+docker pull amphait0m/nodejs-ci-cd:latest
 
 docker run --rm -p 3000:3000 \
   -e DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:5432/nodejs_cicd?schema=public" \
-  amphai003/nodejs-ci-cd:latest
+  amphait0m/nodejs-ci-cd:latest
 ```
 
 ### Build and push to Docker Hub (manual)
@@ -164,8 +164,8 @@ docker login
 # Build with BuildKit (recommended)
 docker buildx build \
   --target production \
-  --tag amphai003/nodejs-ci-cd:latest \
-  --tag amphai003/nodejs-ci-cd:1.0.0 \
+  --tag amphait0m/nodejs-ci-cd:latest \
+  --tag amphait0m/nodejs-ci-cd:1.0.0 \
   --build-arg VERSION=1.0.0 \
   --build-arg REVISION=$(git rev-parse --short HEAD) \
   --push \
@@ -180,7 +180,7 @@ Add these repository secrets under **Settings → Secrets and variables → Acti
 
 | Secret | Description |
 |--------|-------------|
-| `DOCKERHUB_USERNAME` | Your Docker Hub username (`amphai003`) |
+| `DOCKERHUB_USERNAME` | Your Docker Hub username (`amphait0m`) |
 | `DOCKERHUB_TOKEN` | Docker Hub [access token](https://hub.docker.com/settings/security) (not your account password) |
 
 Image tags:

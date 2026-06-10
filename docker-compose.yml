@@ -17,7 +17,7 @@ services:
       retries: 5
 
   app:
-    image: amphai003/nodejs-ci-cd:latest
+    image: amphait0m/nodejs-ci-cd:latest
     build:
       context: .
       target: production

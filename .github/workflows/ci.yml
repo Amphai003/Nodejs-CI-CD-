@@ -8,6 +8,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  IMAGE_NAME: amphait0m/nodejs-ci-cd
+
 jobs:
   test:
     runs-on: ubuntu-latest
